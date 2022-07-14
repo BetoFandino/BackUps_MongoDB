@@ -7,7 +7,7 @@ import bson
 from pymongo import MongoClient
 from pymongo import errors as pymongo_errors
 
-from config import response_code
+from config import response_codes
 from .backup_utils import create_folder_backup, backup_folder_for
 from config.config_utils import capture_input_parameters
 from console_utils import print_on_same_line
@@ -105,7 +105,7 @@ def restore_db(mongo_uri: str, dbname: str, directory: str) -> bool:
 def backup_data(bool_restore, list_data):
     return_code, input_params, source_mongo_uri, destination_mongo_uri, backup_name, list_f = \
         capture_input_parameters(list_data=list_data)
-    if return_code == response_code.SUCCESS:
+    if return_code == response_codes.SUCCESS:
         try:
             src_dbname = input_params.get('source').get('dbname')
             dest_dbname = input_params.get('destination').get('dbname')
@@ -122,7 +122,7 @@ def backup_data(bool_restore, list_data):
                 if restore_db(destination_mongo_uri, dest_dbname, backup_folder_for(backup_name)):
                    pass
         except Exception as ex:
-            return_code = response_code.UNEXPECTED_ERRROR
+            return_code = response_codes.UNEXPECTED_ERRROR
         return return_code
     else:
         return return_code
